@@ -48,21 +48,27 @@ public class PlayerController : MonoBehaviour
             jumpTimeCounter = jumpTime;
         }
 
+        if (IsGrounded())
+        {
+            animator.SetBool("isJumping", false);
+        }
+
         HandleMovement();
         LongJump();
     }
 
     private void LongJump()
     {
-        if (Input.GetKey(KeyCode.Space) && jumpTimeCounter > 0 && canJump)
+        if (Input.GetKey(KeyCode.W) && jumpTimeCounter > 0 && canJump)
         {
             //rb.velocity = Vector2.up * jumpVelocity;
 
             rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
             jumpTimeCounter = jumpTimeCounter - Time.deltaTime;
             hasStoppedPressingJump = false;
+            animator.SetBool("isJumping", true);
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.W))
         {
             canJump = false; //si dejo de presionar espacio ya no puedo saltar más hasta que vuelva al suelo
             hasStoppedPressingJump = true;
